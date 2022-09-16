@@ -2,14 +2,13 @@
 name = "playlist-tool"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Erick Martinez"]
 readme = "README.md"
 packages = [{include = "playlist_tool"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-streamlit = "^1.12.2"
-numpy = "^1.23.3"
+pandas = "^1.4.4"
 spotipy = "^2.20.0"
 
 
