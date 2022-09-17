@@ -7,6 +7,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from playlist_tool.constants import *
 
+client_id = st.secrets['spotify']['client_id']
+client_secret = st.secrets['spotify']['client_secret']
 
 @st.experimental_singleton
 def get_all(_spotify_client_items, arg=None, step=20):
@@ -35,7 +37,6 @@ def get_audio(audio_url):
     raw_audio = requests.get(audio_url, stream=True).raw
     audio_bytes = raw_audio.read()
     return audio_bytes
-
 
 @st.experimental_singleton
 def get_authenticated_client():

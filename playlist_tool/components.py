@@ -32,7 +32,6 @@ def playlists(user_df, authenticated_client):
     col3.image(track_image)
     col3.audio(track_audio)
 
-
 def search():
     st.text_input('Search:')
 
@@ -48,4 +47,3 @@ def sidebar():
 
     if page == 'Search':
         search(user_df, authenticated_client)
-
