@@ -14,7 +14,7 @@ try:
 
 except Exception as e:
     # st.write(e)
-    authorization_url = auth_manager.get_authorize_url()
+    authorization_url = auth_manager.get_authorize_url() + '&output=embed'
     st.write(f'''<h1>
         Please login using this <a target="_self"
         href="{authorization_url}">url</a></h1>''',
