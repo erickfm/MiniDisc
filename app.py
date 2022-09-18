@@ -8,8 +8,7 @@ auth_manager = SpotifyOAuth(client_id=client_id,
 try:
     code = st.experimental_get_query_params()['code']
     sp = spotipy.Spotify(auth=auth_manager.get_access_token(code, as_dict=False))
-    tracks = sp.current_user_top_tracks(10)['items']
-    st.write(f'### {tracks}')
+    sidebar()
 
 except Exception as e:
     # st.write(e)
@@ -28,7 +27,7 @@ except Exception as e:
 # )
 
 # # run sidebar based control function
-# sidebar()
+
 
 
 
