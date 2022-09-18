@@ -12,7 +12,7 @@ try:
     st.write(f'### {tracks}')
 
 except Exception as e:
-    st.write(e)
+    # st.write(e)
     authorization_url = auth_manager.get_authorize_url()
     st.write(f'''<h1>
         Please login using this <a target="_self"
