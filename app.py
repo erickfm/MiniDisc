@@ -19,6 +19,9 @@ except Exception as e:
         Please login using this <a target="_self"
         href="{authorization_url}">url</a></h1>''',
              unsafe_allow_html=True)
+    st.write(f"[url]({authorization_url})")
+    link = 'check out this [link](https://retailscope.africa/)'
+    st.markdown(link, unsafe_allow_html=True)
 
 
 # set page configuration
