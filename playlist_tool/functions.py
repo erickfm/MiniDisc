@@ -47,8 +47,10 @@ def get_authenticated_client():
         scope=scope,
         redirect_uri=redirect_uri
     )
+    # get redirect url params code
+    code = st.experimental_get_query_params()['code']
     # authenticate with spotify api
-    return spotipy.Spotify(auth_manager=auth_manager)
+    return spotipy.Spotify(auth=auth_manager.get_access_token(code, as_dict=False))
 
 def get_playlist_attributes(playlist_id, user_df, authenticated_client):
     playlist_df = user_df[user_df['id'] == playlist_id]

@@ -39,9 +39,13 @@ def sidebar():
     # show a title
     st.sidebar.markdown(f'# :minidisc: {title}')
     page = st.sidebar.selectbox(label='Main Menu',options=['Playlists','Search'])
-    authenticated_client = get_authenticated_client()
-    user_df = get_all(authenticated_client.current_user_playlists)
+    auth_manager = SpotifyOAuth(client_id=client_id,
+                                client_secret=client_secret,
+                                scope=scope,
+                                redirect_uri=redirect_uri,
+                                )
 
+    user_df = get_all(authenticated_client.current_user_playlists)
     if page == 'Playlists':
         playlists(user_df, authenticated_client)
 
