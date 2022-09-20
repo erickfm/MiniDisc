@@ -10,6 +10,7 @@ packages = [{include = "playlist_tool"}]
 python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
 pandas = "^1.4.4"
 spotipy = "^2.20.0"
+streamlit = "^1.12.2"
 
 
 [build-system]

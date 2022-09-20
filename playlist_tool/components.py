@@ -44,10 +44,8 @@ def sidebar():
                                 scope=scope,
                                 redirect_uri=redirect_uri,
                                 )
-
     user_df = get_all(authenticated_client.current_user_playlists)
     if page == 'Playlists':
         playlists(user_df, authenticated_client)
-
     if page == 'Search':
         search(user_df, authenticated_client)
