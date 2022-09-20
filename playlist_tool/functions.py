@@ -39,7 +39,7 @@ def get_audio(audio_url):
     return audio_bytes
 
 @st.experimental_singleton
-def get_authenticated_client():
+def get_authenticated_client(code):
     # set authentication manager
     auth_manager = SpotifyOAuth(
         client_id=client_id,
@@ -47,8 +47,6 @@ def get_authenticated_client():
         scope=scope,
         redirect_uri=redirect_uri
     )
-    # get redirect url params code
-    code = st.experimental_get_query_params()['code']
     # authenticate with spotify api
     return spotipy.Spotify(auth=auth_manager.get_access_token(code, as_dict=False))
 

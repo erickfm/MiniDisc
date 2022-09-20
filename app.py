@@ -10,10 +10,13 @@ st.set_page_config(
 try:
     # run sidebar based control function
     sidebar()
-except Exception as e:
-    authorization_url = auth_manager.get_authorize_url() + '&output=embed'
-    st.write(f"[url]({authorization_url})")
-    # st.write(f'''<h1>
-    #     Please login using this <a target="_self"
-    #     href="{authorization_url}">url</a></h1>''',
-    #          unsafe_allow_html=True)
+except:
+    auth_manager = SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
+        scope=scope,
+        redirect_uri=redirect_uri
+    )
+    authorization_url = auth_manager.get_authorize_url()
+    st.write(f"# [Login]({authorization_url})")
+

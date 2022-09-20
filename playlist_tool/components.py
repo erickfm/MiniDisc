@@ -36,15 +36,16 @@ def search():
     st.text_input('Search:')
 
 def sidebar():
+    # get redirect url params code
+    code = st.experimental_get_query_params()['code']
     # show a title
     st.sidebar.markdown(f'# :minidisc: {title}')
-    page = st.sidebar.selectbox(label='Main Menu',options=['Playlists','Search'])
-    auth_manager = SpotifyOAuth(client_id=client_id,
-                                client_secret=client_secret,
-                                scope=scope,
-                                redirect_uri=redirect_uri,
-                                )
+    page = st.sidebar.selectbox(label='Main Menu', options=['Playlists', 'Search'])
+    # get authenticated client
+    authenticated_client = get_authenticated_client(code)
+    # get user playlists
     user_df = get_all(authenticated_client.current_user_playlists)
+    # conditionals on page selection
     if page == 'Playlists':
         playlists(user_df, authenticated_client)
     if page == 'Search':
