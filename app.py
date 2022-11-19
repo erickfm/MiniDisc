@@ -7,16 +7,21 @@ st.set_page_config(
     page_icon=":minidisc:"
 )
 
-try:
-    # run sidebar based control function
+if redirect_uri != "https://erickfm-minidisc-app-pxiqru.streamlitapp.com/":
     sidebar()
-except:
-    auth_manager = SpotifyOAuth(
-        client_id=client_id,
-        client_secret=client_secret,
-        scope=scope,
-        redirect_uri=redirect_uri
-    )
-    authorization_url = auth_manager.get_authorize_url()
-    st.write(f"# [Login]({authorization_url})")
-
+else:
+    try:
+        # run sidebar based control function
+        sidebar()
+    except:
+        # set authentication manager
+        auth_manager = SpotifyOAuth(
+            client_id=client_id,
+            client_secret=client_secret,
+            scope=scope,
+            redirect_uri=redirect_uri
+        )
+        # get authentication url for login
+        authorization_url = auth_manager.get_authorize_url()
+        # display login link
+        st.write(f"# [Login]({authorization_url})")

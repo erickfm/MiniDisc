@@ -1,5 +1,6 @@
 from playlist_tool.functions import *
 
+
 def playlists(user_df, authenticated_client):
     options_dict = {f"{name} - {owner['display_name']}": id for name, owner, id in
                     zip(user_df['name'], user_df['owner'], user_df['id'])}
@@ -32,17 +33,22 @@ def playlists(user_df, authenticated_client):
     col3.image(track_image)
     col3.audio(track_audio)
 
-def search():
+
+def search(user_df, authenticated_client):
     st.text_input('Search:')
 
+
 def sidebar():
-    # get redirect url params code
-    code = st.experimental_get_query_params()['code']
+    if redirect_uri != 'https://erickfm-minidisc-app-pxiqru.streamlitapp.com/':
+        authenticated_client = get_authenticated_client_local()
+    else:
+        # get redirect url params code
+        code = st.experimental_get_query_params()['code']
+        # get authenticated client
+        authenticated_client = get_authenticated_client(code)
     # show a title
     st.sidebar.markdown(f'# :minidisc: {title}')
     page = st.sidebar.selectbox(label='Main Menu', options=['Playlists', 'Search'])
-    # get authenticated client
-    authenticated_client = get_authenticated_client(code)
     # get user playlists
     user_df = get_all(authenticated_client.current_user_playlists)
     # conditionals on page selection
