@@ -14,7 +14,7 @@ client_secret = st.secrets['spotify']['client_secret']
 @st.experimental_singleton
 def get_all(_spotify_client_items, arg=None, step=20):
     offset = 0
-    response = {'next':1}
+    response = {'next': 1}
     user_items = pd.DataFrame()
     while response['next']:
         response = _spotify_client_items(arg, offset=offset)
@@ -82,17 +82,19 @@ def get_playlist_attributes(playlist_id, user_df, authenticated_client):
 def get_tracklist(playlist_items_df):
     new_rows = []
     for row in playlist_items_df.iloc:
-        new_row = {}
-        new_row['track'] = row['track']['name']
-        new_row['artists'] = [artist['name'] for artist in row['track']['artists']]
-        new_row['album'] = row['track']['album']['name']
-        new_row['duration'] = get_duration(row['track']['duration_ms'])
-        new_row['date added'] = row['added_at'].split('T')[0]
-        new_row['popularity'] = row['track']['popularity']
-        new_row['images'] = row['track']['album']['images']
-        new_row['id'] = row['track']['id']
-        new_row['preview_url'] = row['track']['preview_url']
-        new_rows.append(new_row)
+        try:
+            new_row = {'track': row['track']['name'],
+                       'artists': ', '.join([str(artist['name']) for artist in row['track']['artists']]),
+                       'album': row['track']['album']['name'],
+                       'duration': get_duration(row['track']['duration_ms']),
+                       'date added': row['added_at'].split('T')[0],
+                       'popularity': row['track']['popularity'],
+                       'images': row['track']['album']['images'],
+                       'id': row['track']['id'],
+                       'preview_url': row['track']['preview_url']}
+            new_rows.append(new_row)
+        except TypeError as e:
+            pass
     return pd.DataFrame(new_rows)
 
 
@@ -101,3 +103,27 @@ def get_duration(ms):
     if duration[0] == '0':
         duration = duration[1:]
     return duration
+
+
+@st.experimental_singleton
+def get_all_playlist_items(user_df, _authenticated_client):
+    all_playlist_items_df = pd.DataFrame()
+    progress_bar = st.progress(0)
+    for index, playlist_id in enumerate(list(user_df['id'])):
+        playlist_df, playlist_items_df, playlist_name, playlist_url, playlist_owner, playlist_owner_url, playlist_images \
+            = get_playlist_attributes(playlist_id, user_df, _authenticated_client)
+        tracklist_df = get_tracklist(playlist_items_df)
+        tracklist_df['playlist'] = playlist_name
+        tracklist_df['id'] = playlist_id
+        all_playlist_items_df = pd.concat([all_playlist_items_df, tracklist_df])
+        # Update progress bar
+        percent_complete = int((index + 1) / len(user_df['id']) * 100)
+        progress_bar.progress(percent_complete)
+    progress_bar.empty()
+    return all_playlist_items_df
+
+
+def get_search_results(all_playlist_items_df, search_term):
+    return all_playlist_items_df[all_playlist_items_df['track'].str.strip().str.lower().str.contains(search_term)
+                                 | all_playlist_items_df['playlist'].str.strip().str.lower().str.contains(search_term)
+                                 | all_playlist_items_df['artists'].str.strip().str.lower().str.contains(search_term)]

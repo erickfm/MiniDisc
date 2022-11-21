@@ -35,7 +35,19 @@ def playlists(user_df, authenticated_client):
 
 
 def search(user_df, authenticated_client):
-    st.text_input('Search:')
+    # col1, col2 = st.columns([6, 1])
+    # search_term = col1.text_input('Search:')
+    # start_search = col2
+    search_term = st.text_input('Search:').lower()
+    start_search = st.button('Submit')
+    if start_search:
+        with st.spinner('Retrieving your Library...'):
+            all_playlist_items_df = get_all_playlist_items(user_df, authenticated_client)
+        with st.spinner('Searching...'):
+            columns = ['track', 'artists', 'album', 'duration', 'date added', 'popularity', 'id', 'playlist']
+            search_results_raw = get_search_results(all_playlist_items_df, search_term)
+            search_results = search_results_raw[columns].drop_duplicates().reset_index(drop=True)
+            st.dataframe(search_results, use_container_width=True)
 
 
 def sidebar():
