@@ -48,7 +48,7 @@ def search(user_df, authenticated_client):
 
 
 def sidebar():
-    if redirect_uri != 'https://erickfm-minidisc-app-pxiqru.streamlitapp.com/':
+    if redirect_uri not in ["https://erickfm-minidisc-app-pxiqru.streamlitapp.com/", 'https://minidisc.streamlit.app/']:
         authenticated_client = get_authenticated_client_local()
     else:
         # get redirect url params code
