@@ -7,7 +7,7 @@ st.set_page_config(
     page_icon=":minidisc:"
 )
 
-if redirect_uri != "https://erickfm-minidisc-app-pxiqru.streamlitapp.com/":
+if redirect_uri not in ["https://erickfm-minidisc-app-pxiqru.streamlitapp.com/", 'https://minidisc.streamlit.app/']:
     sidebar()
 else:
     try:
