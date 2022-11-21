@@ -110,7 +110,7 @@ def get_all_playlist_items(user_df, _authenticated_client):
     all_playlist_items_df = pd.DataFrame()
     progress_bar = st.progress(0)
     for index, playlist_id in enumerate(list(user_df['id'])):
-        playlist_df, playlist_items_df, playlist_name, playlist_url, playlist_owner, playlist_owner_url, playlist_images \
+        playlist_df, playlist_items_df, playlist_name, playlist_url, playlist_owner, playlist_owner_url, playlist_images\
             = get_playlist_attributes(playlist_id, user_df, _authenticated_client)
         tracklist_df = get_tracklist(playlist_items_df)
         tracklist_df['playlist'] = playlist_name
