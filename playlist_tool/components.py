@@ -20,7 +20,7 @@ def playlists(user_df, authenticated_client):
     track_audio = get_audio(preview_url)
 
     # Column 1
-    col1.subheader(f"### [{playlist_name}]({playlist_url}) \n [{playlist_owner}]({playlist_owner_url})")
+    col1.markdown(f"### [{playlist_name}]({playlist_url}) \n [{playlist_owner}]({playlist_owner_url})")
     col1.image(playlist_image)
     pull_track = col1.button('Pull Random Track')
 
